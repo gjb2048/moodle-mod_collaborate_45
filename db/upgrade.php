@@ -38,5 +38,45 @@
  * @return bool
  */
 function xmldb_collaborate_upgrade($oldversion) {
+    global $DB;
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2025082504) {
+
+        $table = new xmldb_table('collaborate');
+
+        // Define fields instructionsa, instructionsaformat, instructionsb and instructionsbformat to be added to collaborate.
+        $field = new xmldb_field('instructionsa', XMLDB_TYPE_TEXT, null, null, null, null, null, 'title');
+
+        // Conditionally launch add field instructionsa.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('instructionsaformat', XMLDB_TYPE_INTEGER, '4', null, null, null, '0', 'instructionsa');
+
+        // Conditionally launch add field instructionsaformat.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('instructionsb', XMLDB_TYPE_TEXT, null, null, null, null, null, 'instructionsaformat');
+
+        // Conditionally launch add field instructionsb.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('instructionsbformat', XMLDB_TYPE_INTEGER, '4', null, null, null, '0', 'instructionsb');
+
+        // Conditionally launch add field instructionsbformat.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Collaborate savepoint reached.
+        upgrade_mod_savepoint(true, 2025082504, 'collaborate');
+    }
+
     return true;
 }
