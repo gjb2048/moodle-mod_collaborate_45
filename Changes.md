@@ -4,6 +4,7 @@ Changes
 V405.1.5
 ---------
 1. Week 5 task 1.
+2. Week 5 task 2 part 1.
 
 V405.1.4
 ---------
