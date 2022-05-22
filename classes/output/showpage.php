@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - https://moodle.org/
+// This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
  * Prints a particular instance of collaborate.
  *
  * @package   mod_collaborate
- * @copyright 202 Richard Jones richardnz@outlook.com.
+ * @copyright 2020 Richard Jones richardnz@outlook.com.
+ * @copyright 2021 G J Barnard - {@link http://moodle.org/user/profile.php?id=442195}.
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  * @see       https://github.com/moodlehq/moodle-mod_simplemod
  * @see       https://github.com/justinhunt/moodle-mod_simplemod
- * @see       https://github.com/gjb2048/moodle-mod_simplemod
  */
 
 namespace mod_collaborate\output;
@@ -34,50 +34,56 @@ use templatable;
 use stdClass;
 
 /**
- * Collaborate: Create a new view page renderable object.
+ * Collaborate: Create a new showpage page renderable object.
  *
- * @param object collaborate - instance of collaborate.
- * @param int id - course module id.
- * @copyright  2020 Richard Jones <richardnz@outlook.com>
+ * @param stdClass collaborate - data from database.
+ * @param object cm - course module.
+ * @param string page - page id.
+ * @copyright  2020 Richard Jones <richardnz@outlook.com>.
  */
-class view implements renderable, templatable {
+class showpage implements renderable, templatable {
 
     /** @var $collaborate */
     protected $collaborate;
-    /** @var $id */
-    protected $id;
+    /** @var $cm */
+    protected $cm;
+    /** @var $page */
+    protected $page;
 
     /**
      * Constructor.
      *
-     * @param object collaborate - instance of collaborate.
-     * @param int id - course module id.
+     * @param stdClass $collaborate Collaborate instance from the DB.
+     * @param cm_info $cm Course module instance.
+     * @param String $page Page 'a' or 'b'.
      */
-    public function __construct($collaborate, $id) {
+    public function __construct($collaborate, $cm, $page) {
         $this->collaborate = $collaborate;
-        $this->id = $id;
+        $this->cm = $cm;
+        $this->page = $page;
     }
 
     /**
      * Export this data so it can be used as the context for a mustache template.
      *
-     * @param renderer_base $output.
-     * @return stdClass.
+     * @param renderer_base $output Output renderer.
+     * @return stdClass Template context.
      */
     public function export_for_template(renderer_base $output) {
 
         $data = new stdClass();
 
-        $data->title = $this->collaborate->title;
-        // Moodle handles processing of std intro field.
-        $data->body = format_module_intro('collaborate', $this->collaborate, $this->id);
-        $data->extra = get_string('dev', 'mod_collaborate');
+        $data->heading = $this->collaborate->title;
 
-        // Set up the user page URLs.
-        $a = new url('/mod/collaborate/showpage.php', ['cid' => $this->collaborate->id, 'page' => 'a']);
-        $b = new url('/mod/collaborate/showpage.php', ['cid' => $this->collaborate->id, 'page' => 'b']);
-        $data->url_a = $a->out(false);
-        $data->url_b = $b->out(false);
+        $data->user = get_string('user', 'mod_collaborate', strtoupper($this->page));
+
+        // Get the content from the database.
+        $content = ($this->page == 'a') ? $this->collaborate->instructionsa : $this->collaborate->instructionsb;
+        $data->body = $content;
+
+        // Get a return url back to view page.
+        $urlv = new url('/mod/collaborate/view.php', ['id' => $this->cm->id]);
+        $data->url_view = $urlv->out();
 
         return $data;
     }
