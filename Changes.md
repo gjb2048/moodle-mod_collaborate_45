@@ -4,6 +4,7 @@ Changes
 V405.1.2
 ---------
 1. Week 2 optional task.
+2. Week 2 task 1.
 
 V405.1.1
 ---------
