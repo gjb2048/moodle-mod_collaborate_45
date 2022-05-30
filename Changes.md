@@ -4,6 +4,7 @@ Changes
 V405.1.7
 ---------
 1. Week 7 Data export classes.
+2. Week 7 Navigation and Name changer.
 
 V405.1.6
 ---------
