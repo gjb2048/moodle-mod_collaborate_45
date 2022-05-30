@@ -42,7 +42,7 @@ require_once($CFG->dirroot.'/mod/collaborate/backup/moodle2/backup_collaborate_s
 class backup_collaborate_activity_task extends backup_activity_task {
 
     /**
-     * No specific settings for this activity
+     * No specific settings for this activity.
      */
     protected function define_my_settings() {
     }
@@ -57,8 +57,8 @@ class backup_collaborate_activity_task extends backup_activity_task {
     /**
      * Encodes URLs to the index.php and view.php scripts.
      *
-     * @param string $content some HTML text that eventually contains URLs to the activity instance scripts.
-     * @return string the content with the URLs encoded.
+     * @param string $content Some HTML text that eventually contains URLs to the activity instance scripts.
+     * @return string The content with the URLs encoded.
      */
     public static function encode_content_links($content) {
         global $CFG;
