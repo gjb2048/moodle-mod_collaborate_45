@@ -1,6 +1,10 @@
 Changes
 =======
 
+V405.1.7
+---------
+1. Week 7 Data export classes.
+
 V405.1.6
 ---------
 1. Week 6 Something I noticed.

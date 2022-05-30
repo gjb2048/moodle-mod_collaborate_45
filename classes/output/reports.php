@@ -71,6 +71,10 @@ class reports implements renderable, templatable {
         $data->url_reports = $reports->out();
         $data->url_view = $view->out();
 
+        // Export data link.
+        $export = new url('/mod/collaborate/export.php', ['cid' => $this->collaborate->id]);
+        $data->url_export = $export->out();
+
         return $data;
     }
 
@@ -108,7 +112,7 @@ class reports implements renderable, templatable {
             // Add a URL to the grading page.
             $gradinglink = new url('/mod/collaborate/grading.php', ['cid' => $this->collaborate->id, 'sid' => $record->id]);
             $data['gradelink'] = $gradinglink->out(false);
-            $data['gradetext'] = get_string('grade', 'core_grades');
+            $data['gradetext'] = get_string('gradenoun', 'core');
 
             $submissions[] = $data;
         }
@@ -128,7 +132,7 @@ class reports implements renderable, templatable {
             get_string('submission', 'mod_collaborate'),
             get_string('firstname', 'core'),
             get_string('lastname', 'core'),
-            get_string('grade', 'core_grades'),
+            get_string('gradenoun', 'core'),
             '',
         ];
     }
