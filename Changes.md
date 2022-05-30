@@ -6,6 +6,7 @@ V405.1.6
 1. Week 6 Something I noticed.
 2. Week 6 task 1.
 3. Week 6 task 2.
+4. Week 6 task 3.
 
 V405.1.5
 ---------

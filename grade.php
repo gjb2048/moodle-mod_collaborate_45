@@ -26,14 +26,22 @@
  * @see       https://github.com/gjb2048/moodle-mod_simplemod
  */
 
+use core\url;
+
 require_once('../../config.php');
 $id = required_param('id', PARAM_INT);// Course module ID.
 
-// Item number may be != 0 for activities that allow more than one grade per user.
-$itemnumber = optional_param('itemnumber', 0, PARAM_INT);
-$userid = optional_param('userid', 0, PARAM_INT); // Graded user ID (optional).
+$cm = get_coursemodule_from_id('collaborate', $id, 0, false, MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+$collaborate = $DB->get_record('collaborate', ['id' => $cm->instance], '*', MUST_EXIST);
 
-require_login();
+require_login($course, false, $cm);
 
-// In the simplest case just redirect to the view page.
-redirect('view.php?id='.$id);
+$modulecontext = context_module::instance($cm->id);
+// Redirect the user.
+if (has_capability('mod/collaborate:gradesubmission', $modulecontext)) {
+    $url = new url('reports.php', ['cid' => $collaborate->id]);
+} else {
+    $url = new url('view.php', ['id' => $id]);
+}
+redirect($url);
