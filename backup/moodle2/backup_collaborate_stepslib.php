@@ -34,7 +34,6 @@
  * @see       https://github.com/justinhunt/moodle-mod_simplemod
  */
 class backup_collaborate_activity_structure_step extends backup_activity_structure_step {
-
     /**
      * Defines the backup structure of the module.
      *
@@ -46,7 +45,8 @@ class backup_collaborate_activity_structure_step extends backup_activity_structu
         $userinfo = $this->get_setting_value('userinfo');
 
         // Define the root element describing the collaborate instance.
-        $collaborate = new backup_nested_element('collaborate',
+        $collaborate = new backup_nested_element(
+            'collaborate',
             ['id'],
             [
                 'course', 'name', 'intro',
@@ -59,7 +59,8 @@ class backup_collaborate_activity_structure_step extends backup_activity_structu
 
         // Define the child element.
         $submissions = new backup_nested_element('submissions');
-        $submission = new backup_nested_element('submission',
+        $submission = new backup_nested_element(
+            'submission',
             ['id'],
             [
                 'collaborateid', 'page', 'userid', 'submission', 'submissionformat',
@@ -76,8 +77,10 @@ class backup_collaborate_activity_structure_step extends backup_activity_structu
 
         // Backup submissions table if backing up user data.
         if ($userinfo) {
-            $submission->set_source_table('collaborate_submissions',
-                ['collaborateid' => backup::VAR_PARENTID]);
+            $submission->set_source_table(
+                'collaborate_submissions',
+                ['collaborateid' => backup::VAR_PARENTID]
+            );
         }
 
         // Define file annotations. (For editor areas).

@@ -32,7 +32,6 @@ require_once($CFG->libdir . '/filelib.php');
  * Form for student submissions.
  */
 class submission_form extends \moodleform {
-
     /**
      * Definition.
      */

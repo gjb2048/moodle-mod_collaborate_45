@@ -33,7 +33,6 @@ require_once($CFG->libdir . '/filelib.php');
  * Define a form that acts on just one field, "name", in an existing table "mdl_collaborate".
  */
 class namechanger_form extends \moodleform {
-
     /**
      * Defines forms elements
      */
@@ -43,8 +42,12 @@ class namechanger_form extends \moodleform {
         $mform = $this->_form;
 
         // Adding the standard "name" field.
-        $mform->addElement('text', 'name', get_string('collaboratename', 'mod_collaborate'),
-            ['size' => '64']);
+        $mform->addElement(
+            'text',
+            'name',
+            get_string('collaboratename', 'mod_collaborate'),
+            ['size' => '64']
+        );
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {

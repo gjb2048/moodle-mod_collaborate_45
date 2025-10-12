@@ -29,7 +29,6 @@ namespace mod_collaborate\task;
  * @package mod_collaborate
  */
 class collaborate_scheduled extends \core\task\scheduled_task {
-
     /**
      * Get the name.
      *

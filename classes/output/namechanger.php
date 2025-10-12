@@ -36,7 +36,6 @@ use stdClass;
  * Create a new namechanger renderable object.
  */
 class namechanger implements renderable, templatable {
-
     /** @var object $course */
     protected $course;
 
@@ -71,7 +70,7 @@ class namechanger implements renderable, templatable {
         $headers = [];
 
         // All course formats define a 'sectioname' string.
-        $headers[] = get_string('sectionname', 'format_'.$this->course->format);
+        $headers[] = get_string('sectionname', 'format_' . $this->course->format);
         $headers[] = get_string('name');
         $headers[] = get_string('action');
         $data->headers = $headers;

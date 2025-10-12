@@ -27,12 +27,13 @@ require_once('../../config.php');
 require_login();
 
 if (is_siteadmin()) {
-    $plugin = new stdClass;
-    require_once($CFG->dirroot.'/mod/collaborate/version.php');
+    $plugin = new stdClass();
+    require_once($CFG->dirroot . '/mod/collaborate/version.php');
     set_config('allversionshash', '');
     $currentconfigversion = get_config('mod_collaborate', 'version');
     $currentversionversion = $plugin->version;
     $newversion = $plugin->version - 1;
     set_config('version', $newversion, 'mod_collaborate');
-    echo 'Collaborate module downgraded to version: '.$newversion.' from config version '.$currentconfigversion.', version.php version '.$currentversionversion.'.';
+    echo 'Collaborate module downgraded to version: ' . $newversion . ' from config version ' . $currentconfigversion .
+        ', version.php version ' . $currentversionversion . '.';
 }

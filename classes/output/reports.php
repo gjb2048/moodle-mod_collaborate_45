@@ -36,7 +36,6 @@ use templatable;
  * Create a new student instructions renderable object.
  */
 class reports implements renderable, templatable {
-
     /** @var $collaborate */
     protected $collaborate;
     /** @var $id */

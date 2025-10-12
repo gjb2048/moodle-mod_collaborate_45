@@ -25,7 +25,7 @@
  */
 
 require_once('../../config.php');
-require_once($CFG->dirroot.'/mod/collaborate/lib.php');
+require_once($CFG->dirroot . '/mod/collaborate/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course.
 
@@ -57,7 +57,7 @@ $table = new html_table();
 $table->attributes['class'] = 'generaltable mod_index';
 
 if ($usesections) {
-    $strsectionname = get_string('sectionname', 'format_'.$course->format);
+    $strsectionname = get_string('sectionname', 'format_' . $course->format);
     $table->head  = [$strsectionname, $strname];
     $table->align = ['center', 'left'];
 } else {
@@ -83,8 +83,11 @@ foreach ($modinfo->instances['collaborate'] as $cm) {
 
     $class = $cm->visible ? null : ['class' => 'dimmed'];
 
-    $row[] = html_writer::link(new core\url('view.php', ['id' => $cm->id]),
-        $cm->get_formatted_name(), $class);
+    $row[] = html_writer::link(
+        new core\url('view.php', ['id' => $cm->id]),
+        $cm->get_formatted_name(),
+        $class
+    );
     $table->data[] = $row;
 }
 

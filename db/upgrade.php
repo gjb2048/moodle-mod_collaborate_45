@@ -42,7 +42,6 @@ function xmldb_collaborate_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2025082504) {
-
         $table = new xmldb_table('collaborate');
 
         // Define fields instructionsa, instructionsaformat, instructionsb and instructionsbformat to be added to collaborate.
@@ -79,7 +78,6 @@ function xmldb_collaborate_upgrade($oldversion) {
     }
 
     if ($oldversion < 2025082507) {
-
         // Define new table to be created.
         $table = new xmldb_table('collaborate_submissions');
 
@@ -104,7 +102,6 @@ function xmldb_collaborate_upgrade($oldversion) {
     }
 
     if ($oldversion < 2025082508) {
-
         // Define field grade to be added to collaborate_submissions.
         $table = new xmldb_table('collaborate_submissions');
         $field = new xmldb_field('grade', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'timemodified');

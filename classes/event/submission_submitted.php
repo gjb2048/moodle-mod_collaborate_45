@@ -54,9 +54,9 @@ class submission_submitted extends \core\event\base {
      * @return string Description.
      */
     public function get_description() {
-        return "The user with id '$this->userid' has ".
-               "made a submission with the id '$this->objectid' ".
-               "in the Collaborate activity with course ".
+        return "The user with id '$this->userid' has " .
+               "made a submission with the id '$this->objectid' " .
+               "in the Collaborate activity with course " .
                "module id '$this->contextinstanceid'.";
     }
 }

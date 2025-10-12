@@ -41,7 +41,6 @@ use stdClass;
  * @copyright  2020 Richard Jones <richardnz@outlook.com>
  */
 class view implements renderable, templatable {
-
     /** @var $collaborate */
     protected $collaborate;
     /** @var $id */
@@ -86,8 +85,10 @@ class view implements renderable, templatable {
         // Add links to reports tabs, if enabled.
         if ($this->reportstab) {
             $data->reports = $this->reportstab;
-            $reports = new url('/mod/collaborate/reports.php',
-                ['cid' => $this->collaborate->id]);
+            $reports = new url(
+                '/mod/collaborate/reports.php',
+                ['cid' => $this->collaborate->id]
+            );
             $view = new url('/mod/collaborate/view.php', ['id' => $this->id]);
             $data->url_reports = $reports->out();
             $data->url_view = $view->out();

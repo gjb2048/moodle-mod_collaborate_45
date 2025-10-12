@@ -43,7 +43,6 @@ use stdClass;
  * @copyright  2020 Richard Jones <richardnz@outlook.com>.
  */
 class showpage implements renderable, templatable {
-
     /** @var $collaborate */
     protected $collaborate;
     /** @var $cm */
@@ -81,13 +80,19 @@ class showpage implements renderable, templatable {
         // Get the content from the database.
         $content = ($this->page == 'a') ? $this->collaborate->instructionsa : $this->collaborate->instructionsb;
 
-        $filearea = 'instructions'.$this->page;
+        $filearea = 'instructions' . $this->page;
         $context = context_module::instance($this->cm->id);
-        $content = file_rewrite_pluginfile_urls($content, 'pluginfile.php', $context->id,
-            'mod_collaborate', $filearea, $this->collaborate->id);
+        $content = file_rewrite_pluginfile_urls(
+            $content,
+            'pluginfile.php',
+            $context->id,
+            'mod_collaborate',
+            $filearea,
+            $this->collaborate->id
+        );
 
         // Run the content through format_text to enable streaming video etc.
-        $formatoptions = new stdClass;
+        $formatoptions = new stdClass();
         $formatoptions->overflowdiv = true;
         $formatoptions->context = $context;
         $format = ($this->page == 'a') ? $this->collaborate->instructionsaformat : $this->collaborate->instructionsbformat;

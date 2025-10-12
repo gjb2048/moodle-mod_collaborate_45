@@ -78,13 +78,12 @@ if ($data = $form->get_data()) {
     collaborate_update_grades($collaborate);
 
     // Log the submission graded event.
-    $event = \mod_collaborate\event\submission_graded::create(
-        ['context' => $PAGE->context, 'objectid' => $PAGE->cm->instance]);
+    $event = \mod_collaborate\event\submission_graded::create(['context' => $PAGE->context, 'objectid' => $PAGE->cm->instance]);
     $event->add_record_snapshot('course', $PAGE->course);
     $event->add_record_snapshot($PAGE->cm->modname, $collaborate);
     $event->trigger();
 
-    redirect ($reportsurl, get_string('submissiongraded', 'mod_collaborate'), 2, notification::NOTIFY_SUCCESS);
+    redirect($reportsurl, get_string('submissiongraded', 'mod_collaborate'), 2, notification::NOTIFY_SUCCESS);
 }
 
 if ($data) {

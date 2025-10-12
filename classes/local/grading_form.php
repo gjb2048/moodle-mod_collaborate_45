@@ -32,7 +32,6 @@ require_once($CFG->libdir . '/filelib.php');
  * Form for grading.
  */
 class grading_form extends \moodleform {
-
     /**
      * Definition.
      */

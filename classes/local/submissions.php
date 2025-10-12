@@ -35,7 +35,6 @@ use stdClass;
  * Class for handling student submissions.
  */
 class submissions {
-
     /**
      * Add a submission record to the DB.
      *
@@ -118,7 +117,7 @@ class submissions {
         $data->submission = $record->submission;
 
         $user = $DB->get_record('user', ['id' => $record->userid], '*', MUST_EXIST);
-        $data->name = $user->firstname.' '.$user->lastname;
+        $data->name = $user->firstname . ' ' . $user->lastname;
         $data->grade = (is_null($record->grade)) ? '-' : $record->grade;  // So that '-' is shown when first not graded.
 
         return $data;
@@ -162,22 +161,28 @@ class submissions {
     public static function get_export_data($collaborate, $context) {
         global $DB;
 
-        $sql = "SELECT s.id, u.firstname, u.lastname, s.submission,  s.grade ".
-               "FROM {collaborate_submissions} s ".
-               "JOIN {collaborate} c ON s.collaborateid = c.id ".
-               "JOIN {user} u ON s.userid = u.id ".
-               "WHERE u.id <> 0 ".
+        $sql = "SELECT s.id, u.firstname, u.lastname, s.submission,  s.grade " .
+               "FROM {collaborate_submissions} s " .
+               "JOIN {collaborate} c ON s.collaborateid = c.id " .
+               "JOIN {user} u ON s.userid = u.id " .
+               "WHERE u.id <> 0 " .
                "AND s.collaborateid = :cid";
 
         $records = $DB->get_records_sql($sql, ['cid' => $collaborate->id]);
 
         // Process the submissions.
         foreach ($records as $record) {
-            $content = file_rewrite_pluginfile_urls($record->submission, 'pluginfile.php',
-                $context->id, 'mod_collaborate', 'submission', $record->id);
+            $content = file_rewrite_pluginfile_urls(
+                $record->submission,
+                'pluginfile.php',
+                $context->id,
+                'mod_collaborate',
+                'submission',
+                $record->id
+            );
 
             // Format submission.
-            $formatoptions = new stdClass;
+            $formatoptions = new stdClass();
             $formatoptions->noclean = true;
             $formatoptions->overflowdiv = true;
             $formatoptions->context = $context;
@@ -211,10 +216,10 @@ class submissions {
         global $CFG, $DB;
 
         // Get the all Collaborate instances.
-        $sql = "SELECT s.id, u.firstname, u.lastname, s.submission,  s.grade, c.id AS cid, c.course ".
-               "FROM {collaborate_submissions} s ".
-               "JOIN {collaborate} c ON s.collaborateid = c.id ".
-               "JOIN {user} u ON s.userid = u.id ".
+        $sql = "SELECT s.id, u.firstname, u.lastname, s.submission,  s.grade, c.id AS cid, c.course " .
+               "FROM {collaborate_submissions} s " .
+               "JOIN {collaborate} c ON s.collaborateid = c.id " .
+               "JOIN {user} u ON s.userid = u.id " .
                "WHERE u.id <> 0";
 
         $records = $DB->get_records_sql($sql);
@@ -237,11 +242,17 @@ class submissions {
             $data['lastname'] = $record->lastname;
 
             // Process media files (for printing).
-            $content = file_rewrite_pluginfile_urls($record->submission, 'pluginfile.php',
-                $context->id, 'mod_collaborate', 'submission', $record->id);
+            $content = file_rewrite_pluginfile_urls(
+                $record->submission,
+                'pluginfile.php',
+                $context->id,
+                'mod_collaborate',
+                'submission',
+                $record->id
+            );
 
             // Format submission.
-            $formatoptions = new stdClass;
+            $formatoptions = new stdClass();
             $formatoptions->noclean = true;
             $formatoptions->overflowdiv = true;
             $formatoptions->context = $context;
@@ -256,10 +267,10 @@ class submissions {
         $downloadsubmissions = new \ArrayObject($submissions);
         $iterator = $downloadsubmissions->getIterator();
         $dataformat = 'pdf';
-        $filename = clean_filename('export_submissions_'.time());
+        $filename = clean_filename('export_submissions_' . time());
         $exportfile = dataformat::write_data($filename, $dataformat, $fields, $iterator);
 
         // Move the file from a temporary location to one that we know about before its deleted.
-        rename($exportfile, $CFG->dataroot.'/'.$filename.'.pdf');
+        rename($exportfile, $CFG->dataroot . '/' . $filename . '.pdf');
     }
 }

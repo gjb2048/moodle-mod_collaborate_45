@@ -65,12 +65,13 @@ if ($data = $form->get_data()) {
 
     // Log the submission submitted event.
     $event = \mod_collaborate\event\submission_submitted::create(
-        ['context' => $PAGE->context, 'objectid' => $PAGE->cm->instance]);
+        ['context' => $PAGE->context, 'objectid' => $PAGE->cm->instance]
+    );
     $event->add_record_snapshot('course', $PAGE->course);
     $event->add_record_snapshot($PAGE->cm->modname, $collaborate);
     $event->trigger();
 
-    redirect ($returnurl, get_string('submissionupdated', 'mod_collaborate'), null, notification::NOTIFY_SUCCESS);
+    redirect($returnurl, get_string('submissionupdated', 'mod_collaborate'), null, notification::NOTIFY_SUCCESS);
 }
 
 // Set the saved data (if any) to the form.
@@ -78,8 +79,15 @@ $data = new stdClass();
 $data = submissions::get_submission($cid, $USER->id, $page);
 if ($data) {
     $options = collaborate_editor::get_editor_options($context);
-    $data = file_prepare_standard_editor($data, 'submission', $options, $context, 'mod_collaborate', 'submission',
-        $data->id);
+    $data = file_prepare_standard_editor(
+        $data,
+        'submission',
+        $options,
+        $context,
+        'mod_collaborate',
+        'submission',
+        $data->id
+    );
     $form->set_data($data);
 }
 

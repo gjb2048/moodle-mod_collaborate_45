@@ -26,7 +26,7 @@ use mod_collaborate\local\submissions;
 use core\dataformat;
 
 require_once('../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
+require_once($CFG->libdir . '/adminlib.php');
 
 // The collaborate instance id.
 $cid = required_param('cid', PARAM_INT);

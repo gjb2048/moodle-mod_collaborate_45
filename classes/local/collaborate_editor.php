@@ -47,9 +47,14 @@ class collaborate_editor {
         // Extract the partner label from name (a or b).
         $partner = strtoupper(substr($name, -1));
         // Editor names should be formed like this by Moodle convention.
-        $name = $name.'_editor';
-        $mform->addElement('editor', $name, get_string('texteditor', 'mod_collaborate', $partner),
-            null, self::get_editor_options($context));
+        $name = $name . '_editor';
+        $mform->addElement(
+            'editor',
+            $name,
+            get_string('texteditor', 'mod_collaborate', $partner),
+            null,
+            self::get_editor_options($context)
+        );
         $mform->setType($name, PARAM_RAW);
     }
 
@@ -95,10 +100,10 @@ class collaborate_editor {
      * @return boolean Success/fail | int The id of the newly inserted collaborate record.
      */
     public static function update_editor_instance_helper(
-            stdClass $collaborate,
-            mod_collaborate_mod_form $mform,
-            $insert = false
-        ) {
+        stdClass $collaborate,
+        mod_collaborate_mod_form $mform,
+        $insert = false
+    ) {
         global $DB;
 
         // Save files and process editor content.
@@ -113,8 +118,15 @@ class collaborate_editor {
         }
 
         foreach ($names as $name) {
-            $collaborate = file_postupdate_standard_editor($collaborate, $name, $options,
-                $context, 'mod_collaborate', $name, $collaborate->id);
+            $collaborate = file_postupdate_standard_editor(
+                $collaborate,
+                $name,
+                $options,
+                $context,
+                'mod_collaborate',
+                $name,
+                $collaborate->id
+            );
         }
 
         $success = $DB->update_record('collaborate', $collaborate); // This is Success/fail.

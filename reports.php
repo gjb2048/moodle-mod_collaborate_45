@@ -56,7 +56,7 @@ require_capability('mod/collaborate:viewreportstab', $context);
 $config = get_config('mod_collaborate');
 if (!$config->enablereports) {
     $returnurl = new url('/mod/collaborate/view.php', ['n' => $cid]);
-    redirect ($returnurl, get_string('nopermission', 'mod_collaborate'), null, notification::NOTIFY_ERROR);
+    redirect($returnurl, get_string('nopermission', 'mod_collaborate'), null, notification::NOTIFY_ERROR);
 }
 
 echo $OUTPUT->header();

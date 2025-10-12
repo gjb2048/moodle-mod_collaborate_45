@@ -36,7 +36,6 @@ use stdClass;
  * Create a new grading form page.
  */
 class grading implements renderable, templatable {
-
     /** @var $submission */
     protected $submission;
     /** @var $context */
@@ -67,11 +66,17 @@ class grading implements renderable, templatable {
         $this->submission->pageheader = get_string('gradingheader', 'mod_collaborate');
 
         // Submission.
-        $content = file_rewrite_pluginfile_urls($this->submission->submission, 'pluginfile.php',
-            $this->context->id, 'mod_collaborate', 'submission', $this->sid);
+        $content = file_rewrite_pluginfile_urls(
+            $this->submission->submission,
+            'pluginfile.php',
+            $this->context->id,
+            'mod_collaborate',
+            'submission',
+            $this->sid
+        );
 
         // Format submission.
-        $formatoptions = new stdClass;
+        $formatoptions = new stdClass();
         $formatoptions->noclean = true;
         $formatoptions->overflowdiv = true;
         $formatoptions->context = $this->context;

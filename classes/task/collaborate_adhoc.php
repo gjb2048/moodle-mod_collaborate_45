@@ -50,7 +50,7 @@ class collaborate_adhoc extends \core\task\adhoc_task {
     protected static function collaborate_do_adhoc_task(\progress_trace $trace, $data) {
         global $DB;
         $trace->output('Executing collaborate do adhoc task');
-        if ($DB->record_exists('collaborate', array('id' => $data->id))) {
+        if ($DB->record_exists('collaborate', ['id' => $data->id])) {
             $DB->update_record('collaborate', $data);
             mtrace(get_string('namechanged', 'mod_collaborate', $data));
             purge_other_caches();  // Purge the 'file and miscellaneous' cache so that our change(s) are seen.

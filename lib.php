@@ -50,7 +50,7 @@ use core\url;
  */
 function collaborate_supports($feature) {
 
-    switch($feature) {
+    switch ($feature) {
         case FEATURE_MOD_INTRO:
             return true;
         case FEATURE_SHOW_DESCRIPTION:
@@ -194,8 +194,8 @@ function collaborate_delete_instance($id) {
 
     // Two different ways.
     // One way '$submissons = $DB->get_records('collaborate_submissions', array('collaborateid' => $collaborate->id));' or another.
-    $sql = "SELECT s.id ".
-           "FROM {collaborate_submissions} s ".
+    $sql = "SELECT s.id " .
+           "FROM {collaborate_submissions} s " .
            "WHERE s.collaborateid = :cid";
     $submissons = $DB->get_records_sql($sql, ['cid' => $collaborate->id]);
     foreach ($submissons as $submisson) {
@@ -275,7 +275,7 @@ function collaborate_print_recent_activity($course, $viewfullnames, $timestart) 
  * @param int $userid check for a particular user's activity only, defaults to 0 (all users).
  * @param int $groupid check for a particular group's activity only, defaults to 0 (all groups).
  */
-function collaborate_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
+function collaborate_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid = 0, $groupid = 0) {
 }
 
 /**
@@ -300,7 +300,7 @@ function collaborate_print_recent_mod_activity($activity, $courseid, $detail, $m
  *
  * @return boolean.
  */
-function collaborate_cron () {
+function collaborate_cron() {
     return true;
 }
 
@@ -363,7 +363,7 @@ function collaborate_scale_used_anywhere($scaleid) {
  */
 function collaborate_grade_item_update(stdClass $collaborate, $grades = null) {
     global $CFG;
-    require_once($CFG->libdir.'/gradelib.php');
+    require_once($CFG->libdir . '/gradelib.php');
     $item = [];
     $item['itemname'] = clean_param($collaborate->name, PARAM_NOTAGS);
     $item['gradetype'] = GRADE_TYPE_VALUE;
@@ -381,8 +381,7 @@ function collaborate_grade_item_update(stdClass $collaborate, $grades = null) {
         $item['reset'] = true;
         $grades = null;
     }
-    grade_update('mod/collaborate', $collaborate->course, 'mod', 'collaborate',
-        $collaborate->id, 0, $grades, $item);
+    grade_update('mod/collaborate', $collaborate->course, 'mod', 'collaborate', $collaborate->id, 0, $grades, $item);
 }
 
 /**
@@ -393,9 +392,17 @@ function collaborate_grade_item_update(stdClass $collaborate, $grades = null) {
  */
 function collaborate_grade_item_delete($collaborate) {
     global $CFG;
-    require_once($CFG->libdir.'/gradelib.php');
-    return grade_update('mod/collaborate', $collaborate->course, 'mod', 'collaborate',
-        $collaborate->id, 0, null, ['deleted' => 1]);
+    require_once($CFG->libdir . '/gradelib.php');
+    return grade_update(
+        'mod/collaborate',
+        $collaborate->course,
+        'mod',
+        'collaborate',
+        $collaborate->id,
+        0,
+        null,
+        ['deleted' => 1]
+    );
 }
 
 /**
@@ -408,7 +415,7 @@ function collaborate_grade_item_delete($collaborate) {
  */
 function collaborate_update_grades(stdClass $collaborate, $userid = 0) {
     global $CFG;
-    require_once($CFG->libdir.'/gradelib.php');
+    require_once($CFG->libdir . '/gradelib.php');
 
     // Populate array of grade objects indexed by userid.
     $grades = collaborate_get_user_grades($collaborate, $userid);
@@ -441,9 +448,9 @@ function collaborate_get_user_grades($collaborate, $userid = 0) {
     $grades = [];
     if (empty($userid)) {
         // All user attempts for this collaborate instance are in the submissions table.
-        $sql = "SELECT a.id, a.collaborateid, a.userid, a.grade, a.timecreated ".
-               "FROM {collaborate_submissions} a ".
-               "WHERE a.collaborateid = :cid ".
+        $sql = "SELECT a.id, a.collaborateid, a.userid, a.grade, a.timecreated " .
+               "FROM {collaborate_submissions} a " .
+               "WHERE a.collaborateid = :cid " .
                "GROUP BY a.userid";
 
         $slusers = $DB->get_records_sql($sql, ['cid' => $collaborate->id]);
@@ -454,11 +461,11 @@ function collaborate_get_user_grades($collaborate, $userid = 0) {
                 $grades[$sluser->userid]->userid = $sluser->userid;
 
                 // Get this users attempts.
-                $sql = "SELECT a.id, a.collaborateid, a.userid, a.grade, a.timecreated ".
-                       "FROM {collaborate_submissions} a ".
-                       "INNER JOIN {user} u ".
-                       "ON u.id = a.userid ".
-                       "WHERE a.collaborateid = :cid ".
+                $sql = "SELECT a.id, a.collaborateid, a.userid, a.grade, a.timecreated " .
+                       "FROM {collaborate_submissions} a " .
+                       "INNER JOIN {user} u " .
+                       "ON u.id = a.userid " .
+                       "WHERE a.collaborateid = :cid " .
                        "AND u.id = :uid";
                 $attempts = $DB->get_records_sql($sql, ['cid' => $collaborate->id, 'uid' => $sluser->userid]);
                 // Apply grading method.
@@ -467,19 +474,16 @@ function collaborate_get_user_grades($collaborate, $userid = 0) {
         } else {
             return false;
         }
-
     } else {
         // User grade for userid.
-        $sql = "SELECT a.id, a.collaborateid, a.userid, a.grade, a.timecreated ".
-               "FROM {collaborate_submissions} a ".
-               "INNER JOIN {user} u ".
-               "ON u.id = a.userid ".
-               "WHERE a.collaborateid = :cid ".
+        $sql = "SELECT a.id, a.collaborateid, a.userid, a.grade, a.timecreated " .
+               "FROM {collaborate_submissions} a " .
+               "INNER JOIN {user} u " .
+               "ON u.id = a.userid " .
+               "WHERE a.collaborateid = :cid " .
                "AND u.id = :uid";
 
-        $attempts = $DB->get_records_sql($sql,
-                ['cid' => $collaborate->id,
-                      'uid' => $userid]);
+        $attempts = $DB->get_records_sql($sql, ['cid' => $collaborate->id, 'uid' => $userid]);
         if (!$attempts) {
             return false; // No attempt yet.
         }
@@ -588,7 +592,7 @@ function collaborate_get_file_info($browser, $areas, $course, $cm, $context, $fi
  * @param bool $forcedownload whether or not force download.
  * @param array $options additional options affecting the file serving.
  */
-function collaborate_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload, array $options=[]) {
+function collaborate_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload, array $options = []) {
     global $DB, $CFG;
 
     if ($context->contextlevel != CONTEXT_MODULE) {
@@ -633,7 +637,7 @@ function collaborate_extend_navigation(navigation_node $navref, stdClass $course
  * @param settings_navigation $settingsnav Complete settings navigation tree.
  * @param navigation_node $collaboratenode Collaborate administration node.
  */
-function collaborate_extend_settings_navigation(settings_navigation $settingsnav, ?navigation_node $collaboratenode=null) {
+function collaborate_extend_settings_navigation(settings_navigation $settingsnav, ?navigation_node $collaboratenode = null) {
     global $PAGE;
 
     // Extend the settings nav with the namechanger page url.

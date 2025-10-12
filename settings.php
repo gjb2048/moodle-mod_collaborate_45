@@ -27,7 +27,12 @@
 defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
-    $settings->add(new admin_setting_configcheckbox('mod_collaborate/enablereports',
-        get_string('enablereports', 'mod_collaborate'),
-        get_string('enablereports_desc', 'mod_collaborate'), 0));
+    $settings->add(
+        new admin_setting_configcheckbox(
+            'mod_collaborate/enablereports',
+            get_string('enablereports', 'mod_collaborate'),
+            get_string('enablereports_desc', 'mod_collaborate'),
+            0
+        )
+    );
 }

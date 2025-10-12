@@ -29,7 +29,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/course/moodleform_mod.php');
+require_once($CFG->dirroot . '/course/moodleform_mod.php');
 
 use mod_collaborate\local\collaborate_editor;
 
@@ -41,7 +41,6 @@ use mod_collaborate\local\collaborate_editor;
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class mod_collaborate_mod_form extends moodleform_mod {
-
     /**
      * Defines forms elements
      */

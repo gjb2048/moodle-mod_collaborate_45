@@ -26,8 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot.'/mod/collaborate/backup/moodle2/backup_collaborate_stepslib.php');
-require_once($CFG->dirroot.'/mod/collaborate/backup/moodle2/backup_collaborate_settingslib.php');
+require_once($CFG->dirroot . '/mod/collaborate/backup/moodle2/backup_collaborate_stepslib.php');
+require_once($CFG->dirroot . '/mod/collaborate/backup/moodle2/backup_collaborate_settingslib.php');
 
 /**
  * Provides the steps to perform one complete backup of the collaborate instance
@@ -40,7 +40,6 @@ require_once($CFG->dirroot.'/mod/collaborate/backup/moodle2/backup_collaborate_s
  * @see       https://github.com/justinhunt/moodle-mod_simplemod
  */
 class backup_collaborate_activity_task extends backup_activity_task {
-
     /**
      * No specific settings for this activity.
      */
@@ -66,11 +65,11 @@ class backup_collaborate_activity_task extends backup_activity_task {
         $base = preg_quote($CFG->wwwroot, '/');
 
         // Link to the list of collaborates.
-        $search = '/('.$base.'\/mod\/collaborate\/index.php\?id\=)([0-9]+)/';
+        $search = '/(' . $base . '\/mod\/collaborate\/index.php\?id\=)([0-9]+)/';
         $content = preg_replace($search, '$@COLLABORATEINDEX*$2@$', $content);
 
         // Link to collaborate view by moduleid.
-        $search = '/('.$base.'\/mod\/collaborate\/view.php\?id\=)([0-9]+)/';
+        $search = '/(' . $base . '\/mod\/collaborate\/view.php\?id\=)([0-9]+)/';
         $content = preg_replace($search, '$@COLLABORATEVIEWBYID*$2@$', $content);
 
         return $content;

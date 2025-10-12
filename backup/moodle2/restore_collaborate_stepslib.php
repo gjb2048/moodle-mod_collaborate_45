@@ -34,7 +34,6 @@
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class restore_collaborate_activity_structure_step extends restore_activity_structure_step {
-
     /**
      * Defines structure of path elements to be processed during the restore.
      *
@@ -47,8 +46,10 @@ class restore_collaborate_activity_structure_step extends restore_activity_struc
 
         $userinfo = $this->get_setting_value('userinfo');
         if ($userinfo) {
-            $paths[] = new restore_path_element('collaborate_submissions',
-                '/activity/collaborate/submissions/submission');
+            $paths[] = new restore_path_element(
+                'collaborate_submissions',
+                '/activity/collaborate/submissions/submission'
+            );
         }
 
         // Return the paths wrapped into standard activity structure.

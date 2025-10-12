@@ -27,7 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/collaborate/backup/moodle2/restore_collaborate_stepslib.php');
+require_once($CFG->dirroot . '/mod/collaborate/backup/moodle2/restore_collaborate_stepslib.php');
 
 /**
  * Restore task for the collaborate activity module.
@@ -40,7 +40,6 @@ require_once($CFG->dirroot.'/mod/collaborate/backup/moodle2/restore_collaborate_
  * @license   https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class restore_collaborate_activity_task extends restore_activity_task {
-
     /**
      * Define (add) particular settings this activity can have.
      */
@@ -80,7 +79,6 @@ class restore_collaborate_activity_task extends restore_activity_task {
         $rules[] = new restore_decode_rule('COLLABORATEINDEX', '/mod/collaborate/index.php?id=$1', 'course');
 
         return $rules;
-
     }
 
     /**
@@ -109,8 +107,15 @@ class restore_collaborate_activity_task extends restore_activity_task {
         $rules = [];
 
         // Fix old wrong uses (missing extension).
-        $rules[] = new restore_log_rule('collaborate', 'view all', 'index?id={course}', null,
-            null, null, 'index.php?id={course}');
+        $rules[] = new restore_log_rule(
+            'collaborate',
+            'view all',
+            'index?id={course}',
+            null,
+            null,
+            null,
+            'index.php?id={course}'
+        );
         $rules[] = new restore_log_rule('collaborate', 'view all', 'index.php?id={course}', null);
 
         return $rules;
