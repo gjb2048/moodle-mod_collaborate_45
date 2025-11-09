@@ -75,7 +75,6 @@ if ($data = $form->get_data()) {
 }
 
 // Set the saved data (if any) to the form.
-$data = new stdClass();
 $data = submissions::get_submission($cid, $USER->id, $page);
 if ($data) {
     $options = collaborate_editor::get_editor_options($context);
