@@ -23,6 +23,8 @@
  */
 namespace mod_collaborate\task;
 
+use stdClass;
+
 /**
  * An adhoc task.
  *
@@ -50,9 +52,14 @@ class collaborate_adhoc extends \core\task\adhoc_task {
     protected static function collaborate_do_adhoc_task(\progress_trace $trace, $data) {
         global $DB;
         $trace->output('Executing collaborate do adhoc task');
-        if ($DB->record_exists('collaborate', ['id' => $data->id])) {
+        $record = $DB->get_record('collaborate', ['id' => $data->id]);
+        if ($record !== false) {
             $DB->update_record('collaborate', $data);
-            mtrace(get_string('namechanged', 'mod_collaborate', $data));
+            $namechangeddata = new stdClass();
+            $namechangeddata->id = $data->id;
+            $namechangeddata->toname = $data->name;
+            $namechangeddata->fromname = $record->name;
+            mtrace(get_string('namechanged', 'mod_collaborate', $namechangeddata));
             purge_other_caches();  // Purge the 'file and miscellaneous' cache so that our change(s) are seen.
         }
     }
